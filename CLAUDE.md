@@ -73,8 +73,13 @@ Since this is a Go project, use standard Go commands:
 
 ## Architecture
 
-- **Entry Point**: `cmd/service/main.go` - Contains the main function and service entry point
-- **Module**: `github.com/mountain-reverie/true-north-greenhouse` (Go 1.23.6)
-- **Structure**: Simple Go application structure with cmd/ directory for executables
+- **Entry Point**: `cmd/service/main.go` - Main function and HTTP server startup
+- **Module**: `github.com/mountain-reverie/honk4greenhouse` (Go 1.23.6)
+- **Structure**: Standard Go project layout following best practices
+  - `cmd/service/` - Application entry point
+  - `internal/handlers/` - HTTP request handlers
+  - `internal/server/` - Server configuration and routing
 
-The codebase is minimal and appears to be a starter project ready for greenhouse design functionality to be implemented.
+**Current Implementation**: Basic Gin HTTP server with health check and welcome endpoints. The server listens on port 8080 (configurable via PORT environment variable) and provides:
+- `/` - Welcome message endpoint
+- `/health` - Health check endpoint for monitoring
