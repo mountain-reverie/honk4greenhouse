@@ -1,0 +1,124 @@
+version: 2
+
+project_name: honk4greenhouse
+
+before:
+  hooks:
+    - go mod tidy
+    - go generate ./...
+
+builds:
+  - id: honk4greenhouse
+    main: ./cmd/service/main.go
+    binary: honk4greenhouse
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+    goarch:
+      - amd64
+      - arm64
+    ldflags:
+      - -s -w
+
+archives:
+  - id: default
+    format: tar.gz
+    name_template: >-
+      {{ .ProjectName }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end }}
+    files:
+      - README.md
+      - LICENSE*
+      - CHANGELOG.md
+
+checksum:
+  name_template: 'checksums.txt'
+
+snapshot:
+  name_template: "{{ incpatch .Version }}-next"
+
+changelog:
+  sort: asc
+  use: github
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore"
+      - Merge pull request
+      - Merge remote-tracking branch
+      - Merge branch
+  groups:
+    - title: "New Features"
+      regexp: "^.*feat[(\\w)]*:+.*$"
+      order: 0
+    - title: "Bug Fixes"
+      regexp: "^.*fix[(\\w)]*:+.*$"
+      order: 10
+    - title: "Performance Improvements"
+      regexp: "^.*perf[(\\w)]*:+.*$"
+      order: 20
+    - title: "Other Changes"
+      order: 999
+
+release:
+  github:
+    owner: mountain-reverie
+    name: honk4greenhouse
+  draft: false
+  prerelease: auto
+  mode: replace
+  header: |
+    ## 🏠 honk4greenhouse {{ .Tag }}
+    
+    Your greenhouse design companion - {{ .Date }}
+    
+    ### What's Changed
+  footer: |
+    **Full Changelog**: https://github.com/mountain-reverie/honk4greenhouse/compare/{{ .PreviousTag }}...{{ .Tag }}
+    
+    ---
+    
+    🤖 Generated with [GoReleaser](https://goreleaser.com/) and [Claude Code](https://claude.ai/code)
+
+# Package managers removed - Linux-only deployment via direct binary download
+
+nfpms:
+  - id: packages
+    package_name: honk4greenhouse
+    file_name_template: "{{ .ConventionalFileName }}"
+    vendor: Mountain Reverie
+    homepage: "https://github.com/mountain-reverie/honk4greenhouse"
+    maintainer: "Mountain Reverie <team@mountain-reverie.com>"
+    description: "A website for designing efficient and potentially passive greenhouses optimized for Canadian climate conditions"
+    license: "MIT"
+    formats:
+      - deb
+      - rpm
+      - apk
+    bindir: /usr/bin
+    section: default
+    contents:
+      - src: ./README.md
+        dst: /usr/share/doc/honk4greenhouse/README.md
+        file_info:
+          mode: 0644
+    scripts:
+      postinstall: "scripts/postinstall.sh"
+      preremove: "scripts/preremove.sh"
+
+# Docker builds removed - deploying as native binaries on host
+
+sboms:
+  - artifacts: archive
+  - id: source
+    artifacts: source
+
+# Signing removed - simplified Linux deployment
+
+# Docker signing removed - no Docker images being built
