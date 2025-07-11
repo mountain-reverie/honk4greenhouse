@@ -47,3 +47,20 @@ func TestHealthCheck_ContentType(t *testing.T) {
 	contentType := w.Header().Get("Content-Type")
 	assert.True(t, strings.Contains(contentType, "application/json"))
 }
+
+func BenchmarkHealthCheck(b *testing.B) {
+	gin.SetMode(gin.TestMode)
+	
+	req, _ := http.NewRequest("GET", "/health", nil)
+	
+	b.ResetTimer()
+	b.ReportAllocs()
+	
+	for b.Loop() {
+		w := httptest.NewRecorder()
+		c, _ := gin.CreateTestContext(w)
+		c.Request = req
+		
+		HealthCheck(c)
+	}
+}

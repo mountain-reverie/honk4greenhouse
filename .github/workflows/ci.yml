@@ -149,6 +149,10 @@ jobs:
           echo "<body><h1>Benchmark Results</h1><pre>" >> reports/benchmark.html
           cat reports/benchmark.txt >> reports/benchmark.html
           echo "</pre></body></html>" >> reports/benchmark.html
+          
+          # Create benchmark badge
+          mkdir -p reports/benchmark
+          echo "{\"schemaVersion\": 1, \"label\": \"benchmarks\", \"message\": \"available\", \"color\": \"blue\"}" > reports/benchmark/badge.json
 
       - name: Test GoReleaser build
         uses: goreleaser/goreleaser-action@286f3b13d1b49da2a2e42a030cde8c5ceb33dba5 # v6.1.0
@@ -292,6 +296,29 @@ jobs:
           </body>
           </html>
           EOF
+
+      - name: Generate SVG badges
+        run: |
+          # Generate coverage badge SVG
+          if [ -f "reports/coverage-badge.json" ]; then
+            COVERAGE=$(jq -r '.message' reports/coverage-badge.json)
+            PERCENTAGE=${COVERAGE%\%}
+            
+            # Determine color based on coverage percentage
+            if [ "$PERCENTAGE" -ge 80 ]; then
+              COLOR="brightgreen"
+            elif [ "$PERCENTAGE" -ge 60 ]; then
+              COLOR="yellow"
+            else
+              COLOR="red"
+            fi
+            
+            curl "https://img.shields.io/badge/Coverage-${COVERAGE}%25-${COLOR}" > gh-pages/coverage-badge.svg
+          fi
+          
+          # Generate benchmark badge SVG
+          mkdir -p gh-pages/benchmark
+          curl "https://img.shields.io/badge/GO-Benchmark-blue" > gh-pages/benchmark/badge.svg
 
       - name: Copy reports to gh-pages
         run: |

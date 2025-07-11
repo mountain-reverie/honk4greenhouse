@@ -89,3 +89,39 @@ func TestHome_JSON_Response_APIClient(t *testing.T) {
 	assert.True(t, strings.Contains(body, `"message"`))
 	assert.True(t, strings.Contains(body, `"version"`))
 }
+
+func BenchmarkHome_HTML(b *testing.B) {
+	gin.SetMode(gin.TestMode)
+	
+	req, _ := http.NewRequest("GET", "/", nil)
+	req.Header.Set("Accept", "text/html")
+	
+	b.ResetTimer()
+	b.ReportAllocs()
+	
+	for b.Loop() {
+		w := httptest.NewRecorder()
+		c, _ := gin.CreateTestContext(w)
+		c.Request = req
+		
+		Home(c)
+	}
+}
+
+func BenchmarkHome_JSON(b *testing.B) {
+	gin.SetMode(gin.TestMode)
+	
+	req, _ := http.NewRequest("GET", "/", nil)
+	req.Header.Set("Accept", "application/json")
+	
+	b.ResetTimer()
+	b.ReportAllocs()
+	
+	for b.Loop() {
+		w := httptest.NewRecorder()
+		c, _ := gin.CreateTestContext(w)
+		c.Request = req
+		
+		Home(c)
+	}
+}
