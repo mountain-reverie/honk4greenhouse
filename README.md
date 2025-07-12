@@ -6,4 +6,4 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![CI](https://github.com/mountain-reverie/honk4greenhouse/workflows/Main%20CI%2FCD%20Pipeline/badge.svg)](https://github.com/mountain-reverie/honk4greenhouse/actions)
 
-Web site helping designing a greenhouse powered by Canadian geese.
+A website for designing a greenhouse powered by Canadian geese.
