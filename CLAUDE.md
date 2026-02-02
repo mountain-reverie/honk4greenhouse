@@ -188,11 +188,36 @@ R = Thermal resistance of material (m²·K/W)
 - **Growing Degree Days (GDD)**: Crop-specific temperature accumulation
 - **Design Temperatures**: Winter 2.5% and summer 1% values for equipment sizing
 
-**Regional Climate Zones:**
-- Zone 4: Southern Ontario, Lower BC Mainland (2500-3999 HDD)
-- Zone 5: Central Ontario, Southern Prairies (4000-4999 HDD)
-- Zone 6: Northern Ontario, Central Prairies (5000-5999 HDD)
-- Zone 7+: Northern regions (6000+ HDD)
+**Regional Building Climate Zones (NECB):**
+- Zone 4: Southern BC Coast (< 3000 HDD)
+- Zone 5: Toronto, Victoria (3000-3999 HDD)
+- Zone 6: Ottawa, Montreal (4000-4999 HDD)
+- Zone 7A/7B: Edmonton, Winnipeg, Calgary (5000-6999 HDD)
+- Zone 8: Yellowknife, Northern regions (≥ 7000 HDD)
+
+### Plant Hardiness Zones
+
+Plant hardiness zones are essential for crop selection and understanding minimum winter temperatures. **Note:** USDA and Canadian systems are NOT interchangeable.
+
+**USDA System (United States):**
+- Based solely on average annual extreme minimum temperature
+- Zones 1a to 13b (10°F increments, 5°F half-zones)
+- Zone lookup by ZIP code: https://planthardiness.ars.usda.gov/
+- Free API: https://phzmapi.org/{ZIPCODE}.json
+
+**Canadian System:**
+- Based on 7 climate variables (min/max temp, rainfall, snow depth, wind, growing season)
+- Zones 0a to 9a (multivariate index calculation)
+- Zone lookup by municipality: https://planthardiness.gc.ca/
+- ~50% of Canada is Zone 0a (northern territories, unsuitable for most horticulture)
+
+**Approximate Conversion:** Add 1 zone when converting USDA to Canadian (e.g., USDA Zone 4 ≈ Canadian Zone 5)
+
+**Data Downloads:**
+- USDA shapefiles & CSV: https://prism.oregonstate.edu/phzm/
+- Canadian raster data: https://open.canada.ca/data/en/dataset/db9b4130-8893-11e0-9b96-6cf049291510
+
+See [designs/CLIMATE_ZONES.md](designs/CLIMATE_ZONES.md) for comprehensive zone documentation, temperature tables, the Canadian formula, and implementation details.
 
 ### Building Energy Simulation Software
 
