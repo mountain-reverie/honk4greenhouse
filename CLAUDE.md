@@ -165,10 +165,33 @@ R = Thermal resistance of material (m²·K/W)
 - Rock/gravel: ~0.2 BTU/lb·°F (0.84 kJ/kg·K)
 - Placement: North wall positioning for maximum solar exposure
 
-**Climate Battery Systems (SHCS):**
+**Climate Battery Systems (GAHT):**
 - Subterranean heating/cooling using buried pipe networks
 - Captures excess daytime heat for nighttime release
 - Ground temperature stability (8-12°C at 2m depth in Canada)
+
+**Geothermal Heat Pump Systems:**
+- Ground-source heat pumps provide COP of 3-5 (300-500% efficiency)
+- Vertical boreholes: 45-60 m per ton of heating capacity
+- Horizontal loops: 55-150 m² per ton depending on configuration
+- Enhanced grouts with graphite can reduce borehole depth by 20-37%
+
+See [designs/GEOTHERMAL_HEATING.md](designs/GEOTHERMAL_HEATING.md) for comprehensive geothermal system design, sizing calculations, DIY installation guides, and cost analysis.
+
+**Earth-Sheltered Greenhouses (Walipini):**
+- Underground/bermed construction reduces heat loss by 30-50%
+- Ground temperature at 2m depth: 5-12°C year-round (warmer than winter air)
+- Thermal lag: earth is warmest in mid-winter, coolest in summer
+- Roof angle critical at northern latitudes: use latitude + 20-25° for winter light
+- Types: walipini (pit), earth-bermed (Mike Oehler style), Chinese solar greenhouse
+
+**Kusuda Equation for Ground Temperature:**
+```
+T(z,t) = T_mean - T_amp × exp(-z/D) × cos(2π(t - t_shift)/365 - z/D)
+Where D = damping depth = √(365α/π) meters
+```
+
+See [designs/EARTH_SHELTERED_GREENHOUSE.md](designs/EARTH_SHELTERED_GREENHOUSE.md) for comprehensive earth-sheltered greenhouse design, Kusuda equation calculations, solar geometry for roof angles, and calculator parameters.
 
 **References:**
 - [Verge Permaculture - Passive Solar Greenhouse Design](https://vergepermaculture.ca/designing-your-own-passive-solar-greenhouse-part-3/)
